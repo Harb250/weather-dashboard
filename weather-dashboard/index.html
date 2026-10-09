@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Live weather dashboard — search any city for current conditions and a 5-day forecast." />
+  <title>Weather Dashboard</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+
+  <!-- Plain scripts (no modules), so the page also works when opened straight from disk.
+       Order matters: each file uses what the ones above it define. -->
+  <script defer src="js/config.js"></script>
+  <script defer src="js/api.js"></script>
+  <script defer src="js/providers/openmeteo.js"></script>
+  <script defer src="js/providers/openweathermap.js"></script>
+  <script defer src="js/render.js"></script>
+  <script defer src="js/main.js"></script>
+</head>
+<body>
+  <div class="page">
+    <header class="site-header">
+      <p class="eyebrow"><span class="prompt">&gt;_</span> assignment 04 · live weather</p>
+      <h1>Weather Dashboard</h1>
+    </header>
+
+    <main>
+      <!-- Search -->
+      <form id="search-form" class="search" role="search" novalidate>
+        <label for="city-input" class="visually-hidden">City name</label>
+        <input
+          id="city-input"
+          class="search__input"
+          type="search"
+          name="city"
+          placeholder="Enter a city, e.g. Beirut"
+          autocomplete="off"
+          spellcheck="false"
+          maxlength="80"
+        />
+        <button id="search-btn" class="btn btn--primary" type="submit">
+          <span class="btn__spinner" aria-hidden="true"></span>
+          <span>Search</span>
+        </button>
+      </form>
+
+      <div id="suggestions" class="suggestions">
+        <span>Try:</span>
+        <button type="button" data-city="Beirut">Beirut</button>
+        <button type="button" data-city="Tokyo">Tokyo</button>
+        <button type="button" data-city="London">London</button>
+        <button type="button" data-city="New York">New York</button>
+      </div>
+
+      <!-- Status: idle · loading · error (and a short success note) -->
+      <div id="status" class="status" data-state="idle" role="status" aria-live="polite">
+        <span class="status__icon" aria-hidden="true"></span>
+        <p id="status-text" class="status__text">Search for a city to see its weather.</p>
+        <button id="retry-btn" class="btn btn--ghost" type="button" hidden>Retry</button>
+      </div>
+
+      <!-- Result -->
+      <section id="result" class="result" aria-labelledby="city-name" hidden>
+        <article class="card current">
+          <div class="current__place">
+            <h2 id="city-name" class="current__city"></h2>
+            <p id="country" class="current__country"></p>
+            <p id="local-time" class="current__time"></p>
+          </div>
+
+          <div class="current__main">
+            <img id="current-icon" class="current__icon" src="" alt="" width="120" height="120" />
+            <div>
+              <p id="temp" class="current__temp"></p>
+              <p id="description" class="current__desc"></p>
+            </div>
+          </div>
+
+          <dl class="stats">
+            <div class="stat">
+              <dt>Feels like</dt>
+              <dd id="feels-like"></dd>
+            </div>
+            <div class="stat">
+              <dt>Humidity</dt>
+              <dd id="humidity"></dd>
+            </div>
+            <div class="stat">
+              <dt>Wind</dt>
+              <dd id="wind"></dd>
+            </div>
+            <div class="stat">
+              <dt>High / Low</dt>
+              <dd id="high-low"></dd>
+            </div>
+          </dl>
+        </article>
+
+        <article class="card forecast-card">
+          <h3 class="card__label">5-day forecast</h3>
+          <ol id="forecast" class="forecast"></ol>
+        </article>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      Data: <span id="source">—</span> · Built with fetch + async/await
+    </footer>
+  </div>
+</body>
+</html>

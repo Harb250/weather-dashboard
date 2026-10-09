@@ -1,0 +1,9 @@
+# Secrets — never commit your API key
+js/config.js
+.env
+
+# OS / editor clutter
+.DS_Store
+Thumbs.db
+.vscode/
+node_modules/

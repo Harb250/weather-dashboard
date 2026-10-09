@@ -1,0 +1,490 @@
+/* ==========================================================================
+   Weather Dashboard — styles
+   Mobile-first. Design tokens up top; components below; breakpoints last.
+   ========================================================================== */
+
+/* ---------- Design tokens ---------- */
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --surface-2: #1f2630;
+  --border: #2a313c;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+
+  --blue: #58a6ff;
+  --purple: #b083f0;
+  --green: #3fb950;
+  --yellow: #e3b341;
+  --red: #f47067;
+
+  --font-sans: 'Space Grotesk', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 8px 24px rgb(0 0 0 / 0.35);
+  --transition: 150ms ease;
+}
+
+/* ---------- Base ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font-sans);
+  line-height: 1.5;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 85% 0%, rgb(88 166 255 / 0.12), transparent 40%),
+    radial-gradient(rgb(255 255 255 / 0.04) 1px, transparent 1px) 0 0 / 24px 24px,
+    var(--bg);
+}
+
+h1, h2, h3, p, dl, dd, ol {
+  margin: 0;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
+/* Make the `hidden` attribute win over component display rules */
+[hidden] {
+  display: none !important;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- Layout ---------- */
+.page {
+  width: min(100% - 2rem, 960px);
+  margin-inline: auto;
+  padding-block: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  min-height: 100vh;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  flex: 1;
+}
+
+/* ---------- Header / footer ---------- */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--blue);
+}
+
+.prompt {
+  color: var(--green);
+}
+
+h1 {
+  font-size: clamp(1.75rem, 5vw, 2.75rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.site-footer {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 44px; /* comfortable touch target */
+  padding: 0 var(--space-5);
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background var(--transition), opacity var(--transition);
+}
+
+.btn:disabled {
+  cursor: progress;
+  opacity: 0.7;
+}
+
+.btn--primary {
+  background: var(--blue);
+  color: #0d1117;
+}
+
+.btn--primary:hover:not(:disabled) {
+  background: #79b8ff;
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--border);
+  min-height: 36px;
+  padding: 0 var(--space-4);
+}
+
+.btn--ghost:hover {
+  background: var(--surface-2);
+}
+
+/* Spinner inside the Search button, only while loading */
+.btn__spinner {
+  display: none;
+  width: 1em;
+  height: 1em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+.btn:disabled .btn__spinner {
+  display: inline-block;
+}
+
+/* ---------- Search ---------- */
+.search {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.search__input {
+  flex: 1;
+  min-width: 0;
+  min-height: 44px;
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  transition: border-color var(--transition);
+}
+
+.search__input::placeholder {
+  color: var(--text-muted);
+}
+
+.search__input:focus {
+  border-color: var(--blue);
+  outline: none;
+}
+
+.suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.suggestions button {
+  padding: var(--space-1) var(--space-3);
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color var(--transition), color var(--transition);
+}
+
+.suggestions button:hover {
+  border-color: var(--purple);
+  color: var(--purple);
+}
+
+/* ---------- Status (one element, four looks) ---------- */
+.status {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--status-color, var(--text-muted));
+  background: var(--surface);
+  font-size: 0.95rem;
+}
+
+.status__text {
+  flex: 1;
+  min-width: 12rem;
+}
+
+.status__icon {
+  flex: none;
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 50%;
+  background: var(--status-color, var(--text-muted));
+}
+
+.status[data-state='idle'] {
+  --status-color: var(--text-muted);
+  color: var(--text-muted);
+}
+
+.status[data-state='loading'] {
+  --status-color: var(--yellow);
+}
+
+.status[data-state='loading'] .status__icon {
+  background: none;
+  border: 2px solid var(--yellow);
+  border-right-color: transparent;
+  animation: spin 0.7s linear infinite;
+}
+
+.status[data-state='success'] {
+  --status-color: var(--green);
+  color: var(--text-muted);
+}
+
+.status[data-state='error'] {
+  --status-color: var(--red);
+  background: rgb(244 112 103 / 0.08);
+}
+
+/* ---------- Cards ---------- */
+.result {
+  display: grid;
+  gap: var(--space-4);
+  transition: opacity var(--transition);
+}
+
+/* Old result fades while a new search is loading */
+.result.is-stale {
+  opacity: 0.45;
+}
+
+.card {
+  padding: var(--space-5);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.card__label {
+  margin-bottom: var(--space-4);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--purple);
+}
+
+/* ---------- Current weather ---------- */
+.current {
+  display: grid;
+  gap: var(--space-5);
+  border-top: 3px solid var(--blue);
+}
+
+.current__city {
+  font-size: clamp(1.5rem, 5vw, 2rem);
+  line-height: 1.15;
+}
+
+.current__country {
+  color: var(--text-muted);
+}
+
+.current__time {
+  margin-top: var(--space-1);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.current__main {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.current__icon {
+  width: 96px;
+  height: 96px;
+  margin: -12px; /* OpenWeatherMap icons have built-in padding */
+  filter: drop-shadow(0 4px 12px rgb(0 0 0 / 0.4));
+}
+
+.current__temp {
+  font-size: clamp(3rem, 14vw, 4.5rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.current__desc {
+  margin-top: var(--space-1);
+  text-transform: capitalize;
+  color: var(--text-muted);
+}
+
+/* ---------- Stats (definition list as a grid) ---------- */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
+}
+
+.stat {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+}
+
+.stat dt {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.stat dd {
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+/* ---------- Forecast ---------- */
+.forecast {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: var(--space-2);
+}
+
+/* Mobile: each day is a row */
+.day {
+  display: grid;
+  grid-template-columns: 4rem auto 1fr;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+}
+
+.day__name {
+  font-weight: 500;
+}
+
+.day__icon {
+  width: 48px;
+  height: 48px;
+}
+
+.day__temps {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  font-family: var(--font-mono);
+}
+
+.day__temps span {
+  color: var(--text-muted);
+}
+
+/* ---------- Animations ---------- */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 2s !important;
+    transition: none !important;
+  }
+}
+
+/* ---------- Tablet and up ---------- */
+@media (min-width: 640px) {
+  .stats {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  /* Forecast becomes a row of columns */
+  .forecast {
+    grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+  }
+
+  .day {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+    padding: var(--space-3) var(--space-2);
+  }
+
+  .day__icon {
+    width: 56px;
+    height: 56px;
+  }
+
+  .day__temps {
+    justify-content: center;
+  }
+}
+
+/* ---------- Desktop ---------- */
+@media (min-width: 900px) {
+  .current {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+  }
+
+  .stats {
+    grid-column: 1 / -1;
+  }
+}
