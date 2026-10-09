@@ -1,16 +1,9 @@
-// openmeteo.js — Open-Meteo provider (free, no API key).
-// Docs: https://open-meteo.com/en/docs
-//
-// Used automatically when no OpenWeatherMap key is configured, so the app
-// always runs. Returns the same normalized shape as openweathermap.js.
-
 const OpenMeteo = (() => {
   const GEO = 'https://geocoding-api.open-meteo.com/v1/search';
   const WX = 'https://api.open-meteo.com/v1/forecast';
   const FORECAST_DAYS = 5;
 
   async function loadWeather(city) {
-    // Step 1: city name → coordinates
     const q = new URLSearchParams({ name: city, count: 1, language: 'en' });
     const geo = await getJSON(`${GEO}?${q}`);
     if (!geo.results?.length) {
@@ -18,7 +11,6 @@ const OpenMeteo = (() => {
     }
     const { latitude, longitude, name, country } = geo.results[0];
 
-    // Step 2: coordinates → forecast
     const p = new URLSearchParams({
       latitude,
       longitude,
@@ -41,8 +33,7 @@ const OpenMeteo = (() => {
         windKmh: current.wind_speed_10m,
         description: now.description,
         icon: now.icon,
-        // Open-Meteo already gives local time ("2026-10-07T09:00"); read it as UTC
-        // so formatting with timeZone: 'UTC' shows the city's own clock.
+
         localTime: new Date(`${current.time}Z`),
       },
       daily: daily.time.map((day, i) => ({
@@ -54,8 +45,6 @@ const OpenMeteo = (() => {
     };
   }
 
-  // WMO weather code → description + an OpenWeatherMap icon code,
-  // so both providers can share the same icon set.
   const WMO = {
     0: ['clear sky', '01'],
     1: ['mainly clear', '02'],

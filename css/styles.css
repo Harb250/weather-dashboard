@@ -1,9 +1,3 @@
-/* ==========================================================================
-   Weather Dashboard — styles
-   Mobile-first. Design tokens up top; components below; breakpoints last.
-   ========================================================================== */
-
-/* ---------- Design tokens ---------- */
 :root {
   --bg: #0d1117;
   --surface: #161b22;
@@ -34,7 +28,6 @@
   --transition: 150ms ease;
 }
 
-/* ---------- Base ---------- */
 *,
 *::before,
 *::after {
@@ -72,7 +65,6 @@ input {
   outline-offset: 2px;
 }
 
-/* Make the `hidden` attribute win over component display rules */
 [hidden] {
   display: none !important;
 }
@@ -86,7 +78,6 @@ input {
   white-space: nowrap;
 }
 
-/* ---------- Layout ---------- */
 .page {
   width: min(100% - 2rem, 960px);
   margin-inline: auto;
@@ -104,7 +95,6 @@ main {
   flex: 1;
 }
 
-/* ---------- Header / footer ---------- */
 .eyebrow {
   font-family: var(--font-mono);
   font-size: 0.8rem;
@@ -129,13 +119,12 @@ h1 {
   color: var(--text-muted);
 }
 
-/* ---------- Buttons ---------- */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
-  min-height: 44px; /* comfortable touch target */
+  min-height: 44px;
   padding: 0 var(--space-5);
   border-radius: var(--radius-sm);
   border: 1px solid transparent;
@@ -170,7 +159,6 @@ h1 {
   background: var(--surface-2);
 }
 
-/* Spinner inside the Search button, only while loading */
 .btn__spinner {
   display: none;
   width: 1em;
@@ -185,7 +173,6 @@ h1 {
   display: inline-block;
 }
 
-/* ---------- Search ---------- */
 .search {
   display: flex;
   gap: var(--space-2);
@@ -236,7 +223,6 @@ h1 {
   color: var(--purple);
 }
 
-/* ---------- Status (one element, four looks) ---------- */
 .status {
   display: flex;
   align-items: center;
@@ -289,14 +275,12 @@ h1 {
   background: rgb(244 112 103 / 0.08);
 }
 
-/* ---------- Cards ---------- */
 .result {
   display: grid;
   gap: var(--space-4);
   transition: opacity var(--transition);
 }
 
-/* Old result fades while a new search is loading */
 .result.is-stale {
   opacity: 0.45;
 }
@@ -319,7 +303,6 @@ h1 {
   color: var(--purple);
 }
 
-/* ---------- Current weather ---------- */
 .current {
   display: grid;
   gap: var(--space-5);
@@ -351,7 +334,7 @@ h1 {
 .current__icon {
   width: 96px;
   height: 96px;
-  margin: -12px; /* OpenWeatherMap icons have built-in padding */
+  margin: -12px;
   filter: drop-shadow(0 4px 12px rgb(0 0 0 / 0.4));
 }
 
@@ -368,7 +351,6 @@ h1 {
   color: var(--text-muted);
 }
 
-/* ---------- Stats (definition list as a grid) ---------- */
 .stats {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -394,7 +376,6 @@ h1 {
   font-weight: 500;
 }
 
-/* ---------- Forecast ---------- */
 .forecast {
   list-style: none;
   padding: 0;
@@ -402,7 +383,6 @@ h1 {
   gap: var(--space-2);
 }
 
-/* Mobile: each day is a row */
 .day {
   display: grid;
   grid-template-columns: 4rem auto 1fr;
@@ -433,7 +413,6 @@ h1 {
   color: var(--text-muted);
 }
 
-/* ---------- Animations ---------- */
 @keyframes spin {
   to {
     transform: rotate(360deg);
@@ -449,13 +428,11 @@ h1 {
   }
 }
 
-/* ---------- Tablet and up ---------- */
 @media (min-width: 640px) {
   .stats {
     grid-template-columns: repeat(4, 1fr);
   }
 
-  /* Forecast becomes a row of columns */
   .forecast {
     grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
   }
@@ -477,7 +454,6 @@ h1 {
   }
 }
 
-/* ---------- Desktop ---------- */
 @media (min-width: 900px) {
   .current {
     grid-template-columns: 1fr auto;

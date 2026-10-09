@@ -1,8 +1,3 @@
-// render.js — data in, DOM out.
-// One function turns the normalized weather object into the page.
-// Call it again with new data and the page follows (the old city is replaced).
-// API text always goes in with textContent, never innerHTML.
-
 const { renderWeather } = (() => {
   const $ = (id) => document.getElementById(id);
 
@@ -25,7 +20,6 @@ const { renderWeather } = (() => {
   const iconUrl = (code) => `https://openweathermap.org/img/wn/${code}@2x.png`;
   const deg = (n) => `${Math.round(n)}°`;
 
-  // Dates are pre-shifted to the city's local time, so always format as UTC.
   const timeFmt = new Intl.DateTimeFormat('en', {
     weekday: 'long', hour: '2-digit', minute: '2-digit', timeZone: 'UTC',
   });

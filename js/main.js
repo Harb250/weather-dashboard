@@ -1,5 +1,3 @@
-// main.js — events, UI state, and choosing the weather provider.
-
 const form = document.getElementById('search-form');
 const input = document.getElementById('city-input');
 const searchBtn = document.getElementById('search-btn');
@@ -12,19 +10,13 @@ const suggestions = document.getElementById('suggestions');
 const LAST_CITY_KEY = 'weather:last-city';
 let lastCity = '';
 
-// ---------- provider ----------
-
-// js/config.js is git-ignored and optional. If it is missing or the key is
-// empty, fall back to Open-Meteo so the app still runs without any setup.
 const apiKey = typeof OPENWEATHER_API_KEY === 'string' ? OPENWEATHER_API_KEY.trim() : '';
 const fetchWeather = apiKey
   ? (city) => OpenWeatherMap.loadWeather(city, apiKey)
   : (city) => OpenMeteo.loadWeather(city);
 
-// ---------- the four UI states: idle · loading · success · error ----------
-
 function setStatus(state, message = '', { canRetry = false } = {}) {
-  statusEl.dataset.state = state; // each state is styled in CSS
+  statusEl.dataset.state = state;
   statusText.textContent = message;
   retryBtn.hidden = !canRetry;
 
@@ -35,7 +27,6 @@ function setStatus(state, message = '', { canRetry = false } = {}) {
   resultEl.classList.toggle('is-stale', busy);
 }
 
-// Turn any error into plain words. `canRetry` = would trying again help?
 function friendly(err, city) {
   switch (err.kind) {
     case 'not-found':
@@ -57,8 +48,6 @@ function friendly(err, city) {
       return { message: 'Something went wrong while loading the weather.', canRetry: true };
   }
 }
-
-// ---------- the main flow ----------
 
 async function search(rawCity) {
   const city = rawCity.trim().replace(/\s+/g, ' ');
@@ -83,8 +72,6 @@ async function search(rawCity) {
   }
 }
 
-// ---------- events ----------
-
 form.addEventListener('submit', (event) => {
   event.preventDefault();
   search(input.value);
@@ -92,7 +79,6 @@ form.addEventListener('submit', (event) => {
 
 retryBtn.addEventListener('click', () => search(lastCity));
 
-// Quick-pick buttons ("Try: Beirut · Tokyo · …")
 suggestions.addEventListener('click', (event) => {
   const button = event.target.closest('button[data-city]');
   if (!button || searchBtn.disabled) return;
@@ -100,13 +86,10 @@ suggestions.addEventListener('click', (event) => {
   search(button.dataset.city);
 });
 
-// ---------- remember the last city (nice-to-have; ignore if storage is blocked) ----------
-
 function saveLastCity(city) {
   try {
     localStorage.setItem(LAST_CITY_KEY, city);
   } catch {
-    /* storage unavailable — not important */
   }
 }
 
@@ -118,9 +101,6 @@ function readLastCity() {
   }
 }
 
-// ---------- start ----------
-
-// A city in the URL (index.html?city=Beirut) wins over the remembered one.
 const startCity = new URLSearchParams(location.search).get('city') || readLastCity();
 if (startCity) {
   input.value = startCity;
